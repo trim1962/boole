@@ -1,0 +1,44 @@
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
+\begin{tikzpicture}
+  \node (A) at (0,0) {A};
+    \node (B) at (0.5,0) {B};
+    \node (C) at (1,0) {C};
+
+\node[not gate US, draw] at ($(B)+(2,-2)$) (Not1) {};
+    \node[not gate US, draw] at ($(B)+(2,-1)$) (Not2) {};
+    \node[not gate US, draw] at ($(B)+(2,-2.5)$) (Not3) {};
+     \node[not gate US, draw] at ($(B)+(2,-3.4)$) (Not4) {};
+     \node[not gate US, draw] at ($(B)+(2,-3.9)$) (Not5) {};
+     \node[and gate US, draw, logic gate inputs=nnn, anchor=input 2] at ($(Not1.output-|Not2.output)+(1,.5)$) (and1){}; 
+     \node[and gate US, draw, logic gate inputs=nnn, anchor=input 3] at ($(Not3.output-|Not4.output)+(1,-.65)$) (and2){}; 
+    \node[and gate US, draw, logic gate inputs=nnn, anchor=input 3] at ($(Not5.output)+(1,-.4)$) (and3){}; 
+    \node[and gate US, draw, logic gate inputs=nnn, anchor=input 3] at ($(and3)+(-.4,-1.1)$) (and4){}; 
+     \node[or gate US, draw, logic gate inputs=nnnn, anchor=input 2] at ($(and2)+(3,-.5)$) (or1){};  
+\draw (B)|-node[branch] {}(Not1.input);
+\draw (A)|-node[branch] {}(Not2.input);
+\draw(C)|-node[branch] {}(and1);
+\draw(Not1.output)--([xshift=0.3cm]Not1.output) |-(and1.input 3);
+\draw(Not2.output)--([xshift=0.3cm]Not2.output) |-(and1.input 1);
+
+
+\draw (C)|-node[branch] {}(Not3.input);
+\draw (A)|-node[branch] {}(Not4.input);
+\draw(Not3.output)--([xshift=0.3cm]Not3.output) |-(and2.input 1);
+\draw(Not4.output)--([xshift=0.3cm]Not4.output) |-(and2.input 3);
+\draw(B)|-node[branch] {}(and2);
+%
+\draw(A)|-node[branch] {}(Not5.input);
+\draw(Not5.output)--([xshift=0.3cm]Not5.output) |-(and3.input 1);
+\draw(B)|-node[branch] {} (and3.input 2);
+\draw(C)|-node[branch] {} (and3.input 3);
+%
+\draw(A)|-node[branch] {}(and4.input 1);
+\draw(B)|- node[branch] {}(and4.input 2);
+\draw(C)|- node[branch] {}(and4.input 3);
+\draw(and1.output)--  ([xshift=0.5cm]and1.output) |- (or1.input 1);
+\draw(and2.output)--([xshift=0.3cm]and2.output) |- (or1.input 2);
+\draw(and3.output)--([xshift=0.3cm]and3.output) |- (or1.input 3);
+\draw(and4.output)--  ([xshift=0.5cm]and4.output) |- (or1.input 4);
+ \draw (or1.output) -- ([xshift=0.5cm]or1.output) node[above] {};
+\end{tikzpicture}
